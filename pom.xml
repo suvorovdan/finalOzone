@@ -11,6 +11,10 @@
     <properties>
         <aspectj.version>1.8.10</aspectj.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <compiler.version>1.8</compiler.version>
+        <cucumber.version>3.0.2</cucumber.version>
+        <junit.version>4.12</junit.version>
+        <allure.version>2.7.0</allure.version>
     </properties>
 
     <dependencies>
@@ -42,16 +46,22 @@
 
         <!-- https://mvnrepository.com/artifact/info.cukes/cucumber-java -->
         <dependency>
-            <groupId>info.cukes</groupId>
+            <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
-            <version>1.2.5</version>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/ru.yandex.qatools.allure/allure-cucumber-jvm-adaptor -->
         <dependency>
-            <groupId>ru.yandex.qatools.allure</groupId>
-            <artifactId>allure-cucumber-jvm-adaptor</artifactId>
-            <version>1.6.4</version>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber3-jvm</artifactId>
+            <version>${allure.version}</version>
         </dependency>
 
     </dependencies>
@@ -74,15 +84,20 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20</version>
                 <configuration>
-                    <testFailureIgnore>false</testFailureIgnore>
+                    <includes>
+                        <include>**/CucumberRunner.java</include>
+                    </includes>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <!--suppress UnresolvedMavenProperty -->
                     <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                        -Dfile.encoding=UTF-8 -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
+                        -Dcucumber.options="--tags ${TAGS}"
                     </argLine>
                     <properties>
-                        <property>
+                        <!--<property>
                             <name>listener</name>
                             <value>io.qameta.allure.junit4.AllureJunit4</value>
-                        </property>
+                        </property>-->
                     </properties>
                     <systemProperties>
                         <property>
@@ -112,6 +127,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${compiler.version}</source>
+                    <target>${compiler.version}</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>
