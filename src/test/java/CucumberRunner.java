@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = { "src/test/resources" },
         glue = {"stepdefs"},
+        tags = {"@all"},
         plugin = {"io.qameta.allure.cucumber3jvm.AllureCucumber3Jvm"}
 
 )
