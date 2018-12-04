@@ -19,7 +19,9 @@ public class OzonSearchPage extends BasePage {
     @FindBy(className = "item-wrapper")
     WebElement searchResult;
 
-    @FindBy(xpath = "//span[contains(text(),'Корзина')]")
+    //*[@href="/context/cart"]
+    @FindBy(xpath = "//*[@href='/context/cart']")
+//    @FindBy(xpath = "//span[contains(text(),'Корзина')]")
     WebElement cartButton;
 
     @FindBy(xpath = "//div[@data-test-id = 'filter-block-brand']")
